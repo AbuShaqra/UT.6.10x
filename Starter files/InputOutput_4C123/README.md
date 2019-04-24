@@ -1,0 +1,1 @@
+Functional abstraction of the switches and LED. Switches include internal pull-up resistors.

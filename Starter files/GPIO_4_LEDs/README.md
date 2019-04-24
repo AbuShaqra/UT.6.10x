@@ -1,0 +1,1 @@
+Initialize four GPIO pins as outputs. Continually generate output to drive simulated stepper motor.

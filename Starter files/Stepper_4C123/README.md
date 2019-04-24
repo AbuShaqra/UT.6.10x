@@ -1,0 +1,1 @@
+Provide functions that step the motor once clockwise, step once counterclockwise, initialize the stepper motor interface, and turn the motor to the valid desired position.

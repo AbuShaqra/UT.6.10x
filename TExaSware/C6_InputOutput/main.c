@@ -46,7 +46,7 @@ void PortF_Init(void);
 int main(void){    // initialize PF0 and PF4 and make them inputs
   PortF_Init();    // make PF3-1 out (PF3-1 built-in LEDs)
   while(1){
-    In = GPIO_PORTF_DATA_R&0x10;   // read PF4 into Sw1
+    In = GPIO_PORTF_DATA_R&0x10;   // read the Sw1 state connected to PF4 by masking 5th bit from the PORTF register
     In = In>>2;                    // shift into position PF2
 		Out = GPIO_PORTF_DATA_R;
 		Out = Out&0xFB;

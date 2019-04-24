@@ -1,0 +1,1 @@
+Provide functions that initialize a GPIO as input, and allows software to read the status of a switch.
