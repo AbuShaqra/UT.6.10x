@@ -57,14 +57,23 @@ int main(void){
   EnableInterrupts();                      // enable interrupts for the grader  
   while(1){          // Follows the nine steps list above
     // a) Ready signal goes high
+		SetReady();
     // b) wait for switch to be pressed
+		WaitForASLow();
     // c) Ready signal goes low
+		ClearReady();
     // d) wait 10ms
+		Delay1ms(10);
     // e) wait for switch to be released
+		WaitForASHigh();
     // f) wait 250ms
+		Delay1ms(250);
     // g) VT signal goes high
+		SetVT();
     // h) wait 250ms
+		Delay1ms(250);
     // i) VT signal goes low
+		ClearVT();
   }
 }
 // Subroutine to initialize port F pins for input and output
@@ -93,13 +102,21 @@ void PortF_Init(void){ volatile unsigned long delay;
 // white    RGB    0x0E
 
 
-// Subroutine reads AS input and waits for signal to be low
+// Subroutine reads AS (Atrial sensor PF4) input and waits for signal to be low
 // If AS is already low, it returns right away
 // If AS is currently high, it will wait until it to go low
 // Inputs:  None
 // Outputs: None
 void WaitForASLow(void){
 // write this function
+	unsigned long AS_in;
+	while(1){
+	AS_in= GPIO_PORTF_DATA_R;
+	AS_in &= 0x10;
+  if(AS_in != 0x10){
+  break;
+  	}
+  }	
 }
 
 // Subroutine reads AS input and waits for signal to be high
@@ -109,39 +126,51 @@ void WaitForASLow(void){
 // Outputs: None
 void WaitForASHigh(void){
 // write this function
+	unsigned long AS_in;
+	while(1){
+	AS_in= GPIO_PORTF_DATA_R;
+	AS_in &= 0x10;
+  if(AS_in == 0x10){
+  break;
+  	}
+  }	
 }
 
-// Subroutine sets VT high
+// Subroutine sets VT high (PF1)
 // Inputs:  None
 // Outputs: None
 // Notes:   friendly means it does not affect other bits in the port
 void SetVT(void){
 // write this function
+	GPIO_PORTF_DATA_R |= 0x02;
 }
 
-// Subroutine clears VT low
+// Subroutine clears VT low (PF1)
 // Inputs:  None
 // Outputs: None
 // Notes:   friendly means it does not affect other bits in the port
 void ClearVT(void){
 // write this function
+	GPIO_PORTF_DATA_R &= ~0x02;
 }
 
-// Subroutine sets Ready high
+// Subroutine sets Ready high (PF3)
 // Inputs:  None
 // Outputs: None
 // Notes:   friendly means it does not affect other bits in the port
 void SetReady(void){
 // write this function
+	GPIO_PORTF_DATA_R |= 0x08;
 }
 
 
-// Subroutine clears Ready low
+// Subroutine clears Ready low (PF3)
 // Inputs:  None
 // Outputs: None
 // Notes:   friendly means it does not affect other bits in the port
 void ClearReady(void){
 // write this function
+	GPIO_PORTF_DATA_R &= ~0x08;
 }
 
 // Subroutine to delay in units of milliseconds
@@ -150,6 +179,14 @@ void ClearReady(void){
 // Notes:   assumes 80 MHz clock
 void Delay1ms(unsigned long msec){
 // write this function
+	unsigned long count;
+  while(msec > 0){
+    count = (16000*25/30);
+    while(count > 0){
+      count = count - 1;
+    }
+    msec = msec - 1; 
+  }
 
 }
 
