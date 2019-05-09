@@ -1004,7 +1004,7 @@ ARM Macro Assembler    Page 16
   604 00000002 4770            BX               LR
   605 00000004         
   606 00000004         ;*********** EnableInterrupts ***************
-  607 00000004         ; disable interrupts
+  607 00000004         ; enable interrupts
   608 00000004         ; inputs:  none
   609 00000004         ; outputs: none
   610 00000004         EnableInterrupts
@@ -1091,7 +1091,7 @@ ARM Macro Assembler    Page 17
               00000000 
 Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\startu
 p.d -o.\startup.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\
-ARM\Inc\TI\TM4C123 --predefine="__EVAL SETA 1" --list=.\startup.lst startup.s
+ARM\Inc\Luminary --predefine="__EVAL SETA 1" --list=.\startup.lst startup.s
 
 
 

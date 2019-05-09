@@ -14,9 +14,12 @@
 
 // ***** 2. Global Declarations Section *****
 
+unsigned long button;
+
 // FUNCTION PROTOTYPES: Each subroutine defined
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
+void Delayms(unsigned long msec);
 
 // ***** 3. Subroutines Section *****
 
@@ -26,6 +29,18 @@ void EnableInterrupts(void);  // Enable interrupts
 // shown in Lab8_artist.sch (PCB Artist schematic file) or 
 // Lab8_artist.pdf (compatible with many various readers like Adobe Acrobat).
 int main(void){ 
+	volatile unsigned long delay;
+	SYSCTL_RCGC2_R |= 0x10;           // Port E clock
+  delay = SYSCTL_RCGC2_R;           // wait 3-5 bus cycles
+  GPIO_PORTE_DIR_R |= 0x02;         // PE1 output
+  GPIO_PORTE_DIR_R &= ~0x01;        // PE0 input 
+  GPIO_PORTE_AFSEL_R &= ~0x03;      // not alternative
+  GPIO_PORTE_AMSEL_R &= ~0x03;      // no analog
+  GPIO_PORTE_PCTL_R &= ~0x000000FF; // bits for PE0, PE1
+  GPIO_PORTE_DEN_R |= 0x03;         // enable PE0, PD1
+	GPIO_PORTE_DATA_R |= (1<<1); //turn on the LED (make PE1 =1)
+	
+
 //**********************************************************************
 // The following version tests input on PE0 and output on PE1
 //**********************************************************************
@@ -33,8 +48,28 @@ int main(void){
   
 	
   EnableInterrupts();           // enable interrupts for the grader
-  while(1){
-    
+	
+  while(1){ 
+		Delayms(100);
+		button = GPIO_PORTE_DATA_R & 0x01;
+		if(button){
+		GPIO_PORTE_DATA_R = GPIO_PORTE_DATA_R^0x02;
+    }
+		
+}
+	
+}
+
+
+void Delayms(unsigned long msec){
+// write this function
+	unsigned long count;
+  while(msec > 0){
+    count = (16000*25/30);
+    while(count > 0){
+      count = count - 1;
+    }
+    msec = msec - 1; 
   }
-  
+
 }
