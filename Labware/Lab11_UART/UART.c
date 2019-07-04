@@ -123,6 +123,12 @@ char character;
 // Output: none
 void UART_OutString(unsigned char buffer[]){
 // as part of Lab 11 implement this function
+	unsigned long a=0;
+	while(buffer[a] != '\0'){
+	UART_OutChar(buffer[a]);
+	a++;
+	}
+	UART_OutChar('\0');
 
 }
 
