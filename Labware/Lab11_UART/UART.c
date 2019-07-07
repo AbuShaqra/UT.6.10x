@@ -123,13 +123,11 @@ char character;
 // Output: none
 void UART_OutString(unsigned char buffer[]){
 // as part of Lab 11 implement this function
-	unsigned long a=0;
+  unsigned long a=0;
 	while(buffer[a] != '\0'){
 	UART_OutChar(buffer[a]);
 	a++;
 	}
-	UART_OutChar('\0');
-
 }
 
 unsigned char String[10];
@@ -146,7 +144,73 @@ unsigned char String[10];
 //10000 to "**** "  any value larger than 9999 converted to "**** "
 void UART_ConvertUDec(unsigned long n){
 // as part of Lab 11 implement this function
-  
+unsigned long x;
+unsigned long y;
+
+if(n<10){
+    String[0]=0x20;
+    String[1]=0x20;
+    String[2]=0x20;
+    String[3]=n+0x30;
+    String[4]=0x20;
+    String[5]=0x00;
+    //printf("%s", string);
+}
+
+else if(n>=10 && n<100){
+    x=3;
+    String[0]=0x20;
+    String[1]=0x20;
+    while(n != n%10){
+        y=n%10;
+        String[x]=y+0x30;
+        n/=10;
+        x--;
+    }
+    String[x]=n+0x30;
+    String[4]=0x20;
+    String[5]=0x00;
+    //printf("%s", string);
+}
+
+else if(n>=100 && n<1000){
+    x=3;
+    String[0]=0x20;
+    while(n != n%10){
+        y=n%10;
+        String[x]=y+0x30;
+        n/=10;
+        x--;
+    }
+    String[x]=n+0x30;
+    String[4]=0x20;
+    String[5]=0x00;
+    //printf("%s", string);
+}
+
+else if(n>=1000 && n<10000){
+    x=3;
+    while(n != n%10){
+        y=n%10;
+        String[x]=y+0x30;
+        n/=10;
+        x--;
+    }
+    String[x]=n+0x30;
+    String[4]=0x20;
+    String[5]=0x00;
+    //printf("%s", string);
+}
+
+else{
+    String[0]=0x2A;
+    String[1]=0x2A;
+    String[2]=0x2A;
+    String[3]=0x2A;
+    String[4]=0x20;
+    String[5]=0x00;
+    //printf("%s", string);
+}
 }
 
 //-----------------------UART_OutUDec-----------------------
@@ -172,6 +236,88 @@ void UART_OutUDec(unsigned long n){
 //10000 to "*.*** cm"  any value larger than 9999 converted to "*.*** cm"
 void UART_ConvertDistance(unsigned long n){
 // as part of Lab 11 implement this function
+unsigned long x;
+unsigned long y;
+
+if(n<10){
+    String[0]=0x30;
+    String[1]=0x2E;
+    String[2]=0x30;
+    String[3]=0x30;
+    String[4]=n+0x30;
+    String[5]=0x20;
+    String[6]='c';
+    String[7]='m';
+    String[8]=0x00;
+    //printf("%s", string);
+}
+
+else if(n>=10 && n<100){
+    x=4;
+    String[0]=0x30;
+    String[1]=0x2E;
+    String[2]=0x30;
+    while(n != n%10){
+        y=n%10;
+        String[x]=y+0x30;
+        n/=10;
+        x--;
+    }
+    String[x]=n+0x30;
+    String[5]=0x20;
+    String[6]='c';
+    String[7]='m';
+    String[8]=0x00;
+    //printf("%s", string);
+}
+
+else if(n>=100 && n<1000){
+    x=4;
+    String[0]=0x30;
+    String[1]=0x2E;
+    while(n != n%10){
+        y=n%10;
+        String[x]=y+0x30;
+        n/=10;
+        x--;
+    }
+    String[x]=n+0x30;
+    String[5]=0x20;
+    String[6]='c';
+    String[7]='m';
+    String[8]=0x00;
+    //printf("%s", string);
+}
+
+else if(n>=1000 && n<10000){
+    x=4;
+    while(n != n%10){
+        y=n%10;
+        String[x]=y+0x30;
+        n/=10;
+        x--;
+    }
+    String[x-1]=n+0x30;
+    String[1]=0x2E;
+    String[5]=0x20;
+    String[6]='c';
+    String[7]='m';
+    String[8]=0x00;
+    //printf("%s", string);
+}
+
+else{
+    String[0]=0x2A;
+    String[1]=0x2E;
+    String[2]=0x2A;
+    String[3]=0x2A;
+    String[4]=0x2A;
+    String[5]=0x20;
+    String[6]='c';
+    String[7]='m';
+    String[8]=0x00;
+    //printf("%s", string);
+}
   
 }
 
